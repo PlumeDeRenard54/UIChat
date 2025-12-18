@@ -2,13 +2,19 @@ package org.example.uichat;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
-
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 
 import javafx.scene.control.TextArea;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
+
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class ClientWebSocket extends WebSocketClient {
 
@@ -62,9 +68,9 @@ public class ClientWebSocket extends WebSocketClient {
     public static WebSocketClient getLink(){
         if (client == null) {
             try {
-                WebSocketClient clientLoc = new ClientWebSocket(new URI(/*"wss://khaos-experiences.fr:8887"*/ "ws://localhost:8080"), new Draft_6455());
+                WebSocketClient clientLoc = new ClientWebSocket(new URI("wss://khaos-experiences.fr:8888"), new Draft_6455());
 
-                /*SSLContext sslContext = SSLContext.getInstance("TLS");
+                SSLContext sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(null, new TrustManager[]{new X509TrustManager() {
                     public void checkClientTrusted(X509Certificate[] chain, String authType) {
                     }
@@ -76,7 +82,7 @@ public class ClientWebSocket extends WebSocketClient {
                         return new X509Certificate[0];
                     }
                 }}, new SecureRandom());
-                clientLoc.setSocketFactory(sslContext.getSocketFactory());*/
+                clientLoc.setSocketFactory(sslContext.getSocketFactory());
 
 
                 clientLoc.connectBlocking();
