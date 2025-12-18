@@ -15,7 +15,7 @@ public class HelloController {
     private Label welcomeText;
 
     public void initialize(){
-        welcomeText.setText("You are currently in : " + room);
+        welcomeText.setText("You are " + username + " and currently in : " + room);
     }
 
 

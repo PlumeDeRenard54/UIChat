@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
+    public static HelloController helloController;
+
     WebSocketClient client;
 
     Scene scene;
@@ -33,8 +35,8 @@ public class MainApp extends Application {
         stage.setScene(loginScene);
         stage.show();
 
-        HelloController controller = fxmlLoader.getController();
-        Serverlink(controller.textArea);
+        helloController = fxmlLoader.getController();
+        Serverlink(helloController.textArea);
 
     }
 

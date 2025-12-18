@@ -2,10 +2,8 @@ package org.example.uichat;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.TextArea;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;

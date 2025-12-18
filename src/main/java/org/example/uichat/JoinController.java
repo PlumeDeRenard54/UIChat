@@ -13,7 +13,11 @@ public class JoinController {
         try {
             HelloController.username = username.getText();
             HelloController.room = textfield.getText();
-            ClientWebSocket.send(new Message(HelloController.username,"LogMessage",textfield.getText()));
+            ClientWebSocket.send(new Message(HelloController.username,"Join",textfield.getText()));
+
+            //Update des affichages de la page de chat
+            MainApp.helloController.initialize();
+            //affichage de la page de chat
             app.setScene();
         } catch (Exception e) {
             throw new RuntimeException(e);
