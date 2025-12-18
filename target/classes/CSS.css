@@ -1,0 +1,8 @@
+.global{
+    -fx-background-color: salmon;
+}
+
+.texte{
+    -fx-border-color: red;
+    -fx-graphic: #777799;
+}
