@@ -37,7 +37,7 @@ public class ClientWebSocket extends WebSocketClient {
     }
 
     @Override
-    public void onMessage(String message) {
+    public synchronized void onMessage(String message) {
         System.out.println(Message.unserialize(message));
         try {
             textArea.setText(textArea.getText() + "\n" + Message.unserialize(message).toString());
