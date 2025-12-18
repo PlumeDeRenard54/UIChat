@@ -7,24 +7,23 @@ import javafx.scene.control.TextField;
 public class JoinController {
     public TextField textfield;
     public TextField username;
-    public static MainApp app;
 
     public void logRoom(ActionEvent actionEvent) {
         try {
             //Checke si les information sont entrées
             if (!(textfield.getText().isEmpty() || username.getText().isEmpty())) {
                 //Enregistrement des noms
-                HelloController.username = username.getText();
-                HelloController.room = textfield.getText();
+                ChatController.username = username.getText();
+                ChatController.room = textfield.getText();
 
-                //Envoi d'un premier message
-                ClientWebSocket.send(new Message(HelloController.username, "Join", textfield.getText()));
+                //Envoi d'un premier message de login
+                ClientWebSocket.logInRoom(textfield.getText(),ChatController.username);
 
                 //Update des affichages de la page de chat
                 MainApp.helloController.initialize();
 
                 //affichage de la page de chat
-                app.setScene();
+                MainApp.app.setChat();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

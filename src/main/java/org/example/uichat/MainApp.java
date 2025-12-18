@@ -11,28 +11,30 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
-    public static HelloController helloController;
+    public static ChatController helloController;
+    public static MainApp app;
 
     WebSocketClient client;
 
-    Scene scene;
+    Scene chatScene;
+    Scene logScene;
     Stage stage;
+
+    //TODO close on ending
 
     @Override
     public void start(Stage stage) throws IOException {
-        //
-        JoinController.app = this;
+        app = this;
         this.stage = stage;
         //
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("chat.fxml"));
         FXMLLoader logIn = new FXMLLoader(MainApp.class.getResource("JoinRoom.fxml"));
-        Scene MainScene = new Scene(fxmlLoader.load(), 400, 700);
-        MainScene.getStylesheets().add("CSS.css");
-        Scene loginScene = new Scene(logIn.load(),800,800);
-        this.scene = MainScene;
-        loginScene.getStylesheets().add("CSS.css");
+        chatScene = new Scene(fxmlLoader.load(), 400, 700);
+        chatScene.getStylesheets().add("CSS.css");
+        logScene = new Scene(logIn.load(),800,800);
+        logScene.getStylesheets().add("CSS.css");
         stage.setTitle("IUTChat");
-        stage.setScene(loginScene);
+        stage.setScene(logScene);
         stage.show();
 
         helloController = fxmlLoader.getController();
@@ -40,10 +42,12 @@ public class MainApp extends Application {
 
     }
 
-    public void setScene(){this.stage.setScene(scene);}
+    public void setChat(){this.stage.setScene(chatScene);}
+    public void setLog(){this.stage.setScene(logScene);}
 
     private void Serverlink(TextArea textArea){
         ClientWebSocket.setTextArea(textArea);
         client = ClientWebSocket.getLink();
+
     }
 }

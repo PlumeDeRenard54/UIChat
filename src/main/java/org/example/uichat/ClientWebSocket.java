@@ -2,8 +2,11 @@ package org.example.uichat;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -15,6 +18,7 @@ public class ClientWebSocket extends WebSocketClient {
     private static WebSocketClient client;
 
     private static TextArea textArea;
+    public static List<String> publicRooms = new ArrayList<>();
 
     public ClientWebSocket(URI serverUri, Draft draft) {
         super(serverUri, draft);
@@ -40,7 +44,19 @@ public class ClientWebSocket extends WebSocketClient {
     public synchronized void onMessage(String message) {
         System.out.println(Message.unserialize(message));
         try {
-            textArea.setText(textArea.getText() + "\n" + Message.unserialize(message).toString());
+            Message data =  Message.unserialize(message);
+
+            //Reception des données des rooms
+            if (data.user.equals("RoomInfo")){
+                System.out.println("Room info received");
+                publicRooms.add(data.message);
+                MainApp.helloController.updateRooms();
+                return;
+            }
+
+            //Reception des Messages
+            Platform.runLater(()->textArea.setText(textArea.getText() + "\n" + data));
+
         } catch (Exception e) {
             System.out.println("Error while computing data = " + e.getMessage());
             System.out.println(message);
@@ -98,5 +114,11 @@ public class ClientWebSocket extends WebSocketClient {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void logInRoom(String room,String userName){
+        send(new Message(userName,"Joins",room));
+        //Reset de l'affichage
+        MainApp.helloController.textArea.setText("");
     }
 }

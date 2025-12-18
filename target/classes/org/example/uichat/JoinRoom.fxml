@@ -10,11 +10,11 @@
       fx:controller="org.example.uichat.JoinController" styleClass="global" >
     <HBox spacing="10.0" alignment="CENTER">
         <Label text="UserName"/>
-        <TextField fx:id="username"/>
+        <TextField fx:id="username" promptText="UserName"/>
     </HBox>
     <HBox spacing="10.0" alignment="CENTER">
         <Label text="WhichRoom"/>
-        <TextField fx:id="textfield"/>
+        <TextField fx:id="textfield" promptText="Room" text="General"/>
     </HBox>
     <Button text="Join" onAction="#logRoom"/>
 </VBox>
