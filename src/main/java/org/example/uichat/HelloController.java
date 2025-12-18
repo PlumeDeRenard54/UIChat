@@ -14,6 +14,12 @@ public class HelloController {
     @FXML
     private Label welcomeText;
 
+    public void initialize(){
+        welcomeText.setText("You are currently in : " + room);
+    }
+
+
+
     @FXML
     protected void onHelloButtonClick() {
         if (!textArea.getText().isEmpty()) {
