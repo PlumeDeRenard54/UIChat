@@ -13,7 +13,7 @@
             </padding>
 
             <Label fx:id="welcomeText" text="Please Talk" />
-            <TextArea fx:id="textArea" editable="false" styleClass="texte" />
+            <VBox fx:id="messages" styleClass="texte" />
             <TextField fx:id="textEntry" onAction="#onHelloButtonClick" />
             <Button onAction="#onHelloButtonClick" text="Submit" />
         </VBox>

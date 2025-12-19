@@ -7,14 +7,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class ChatController {
-    public TextArea textArea;
     public TextField textEntry;
     public static String username;
     public static String room;
     public TextField UserName;
     public ComboBox<String> Rooms;
+    public VBox messages;
     @FXML
     private Label welcomeText;
 
@@ -58,8 +59,8 @@ public class ChatController {
         }
 
         //Envoie le message
-        if (!textArea.getText().isEmpty()) {
-            textArea.setText("");
+        if (!messages.getChildren().isEmpty()) {
+            messages.getChildren().clear();
             ClientWebSocket.send(new Message(username, textEntry.getText(), room));
             textEntry.setText("");
         }

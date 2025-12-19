@@ -7,7 +7,9 @@ import java.util.List;
 
 
 import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
@@ -17,7 +19,7 @@ public class ClientWebSocket extends WebSocketClient {
 
     private static WebSocketClient client;
 
-    private static TextArea textArea;
+    private static VBox messages;
     public static List<String> publicRooms = new ArrayList<>();
 
     public ClientWebSocket(URI serverUri, Draft draft) {
@@ -37,7 +39,17 @@ public class ClientWebSocket extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        textArea.setText("closed with exit code " + code + " additional info: " + reason);
+        messages.getChildren().clear();
+        messages.getChildren().add(createMessageView("closed with exit code " + code + " additional info: " + reason));
+    }
+
+    //TODO joli labelll
+    public Label createMessageView(Message m){
+        return new Label(m.toString());
+    }
+
+    public Label createMessageView(String m){
+        return createMessageView(new Message("System",m,"All"));
     }
 
     @Override
@@ -55,7 +67,7 @@ public class ClientWebSocket extends WebSocketClient {
             }
 
             //Reception des Messages
-            Platform.runLater(()->textArea.setText(textArea.getText() + "\n" + data));
+            Platform.runLater(()->messages.getChildren().add(createMessageView(data)));
 
         } catch (Exception e) {
             System.out.println("Error while computing data = " + e.getMessage());
@@ -73,7 +85,7 @@ public class ClientWebSocket extends WebSocketClient {
         ex.printStackTrace();
     }
 
-    public static void setTextArea(TextArea textArea2){textArea = textArea2;}
+    public static void setMessages(VBox vBox){messages = vBox;}
 
     public static WebSocketClient getLink(){
         if (client == null) {
@@ -119,6 +131,6 @@ public class ClientWebSocket extends WebSocketClient {
     public static void logInRoom(String room,String userName){
         send(new Message(userName,"Joins",room));
         //Reset de l'affichage
-        MainApp.helloController.textArea.setText("");
+        messages.getChildren().clear();
     }
 }
