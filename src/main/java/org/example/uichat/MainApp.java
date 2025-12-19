@@ -21,7 +21,6 @@ public class MainApp extends Application {
     Scene logScene;
     Stage stage;
 
-    //TODO close on ending
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -43,6 +42,9 @@ public class MainApp extends Application {
 
         helloController = fxmlLoader.getController();
         Serverlink(helloController.messages);
+
+        //lancement des checks reguliers
+        ClientWebSocket.initUpdates();
 
     }
 

@@ -4,7 +4,7 @@
 }
 
 .texte{
-    -fx-border-width: 2;
+    -fx-border-width: 3;
     -fx-border-radius: 20;
     -fx-graphic: #777799;
     -fx-spacing: 5;
@@ -12,7 +12,8 @@
 
 .messages{
     -fx-border-radius: inherit;
-    -fx-border-color: blueviolet;
-    -fx-fill: darkviolet;
+    -fx-background-radius:20;
+    -fx-border-color: darkviolet;
+    -fx-background-color: blueviolet;
     -fx-padding: 5;
 }

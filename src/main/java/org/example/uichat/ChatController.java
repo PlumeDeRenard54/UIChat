@@ -59,7 +59,7 @@ public class ChatController {
         }
 
         //Envoie le message
-        if (!messages.getChildren().isEmpty()) {
+        if (!textEntry.getText().isEmpty()) {
             messages.getChildren().clear();
             ClientWebSocket.send(new Message(username, textEntry.getText(), room));
             textEntry.setText("");

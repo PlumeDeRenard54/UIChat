@@ -2,6 +2,7 @@ package org.example.uichat;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ClientWebSocket extends WebSocketClient {
 
     private static VBox messages;
     public static List<String> publicRooms = new ArrayList<>();
+    public static Thread updates;
 
     public ClientWebSocket(URI serverUri, Draft draft) {
         super(serverUri, draft);
@@ -39,8 +41,7 @@ public class ClientWebSocket extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        messages.getChildren().clear();
-        messages.getChildren().add(createMessageView("closed with exit code " + code + " additional info: " + reason));
+        System.out.println(createMessageView("closed with exit code " + code + " additional info: " + reason));
     }
 
     public Label createMessageView(Message m){
@@ -119,7 +120,7 @@ public class ClientWebSocket extends WebSocketClient {
         return client;
     }
 
-    public static void send(Message message){
+    public static synchronized void send(Message message){
         try {
             WebSocketClient client = ClientWebSocket.getLink();
             String toSend = message.serialize();
@@ -130,9 +131,33 @@ public class ClientWebSocket extends WebSocketClient {
         }
     }
 
+    public static void initUpdates(){
+        if (updates == null) {
+            updates = new Thread(() -> {
+                try {
+                    while (true) {
+                        if (ChatController.room != null) {
+                            messages.getChildren().clear();
+                            askUpdate(ChatController.room);
+                        }
+                        Thread.sleep(1500);
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            updates.start();
+        }
+    }
+
     public static void logInRoom(String room,String userName){
         send(new Message(userName,"Joins",room));
         //Reset de l'affichage
         messages.getChildren().clear();
+    }
+
+
+    public static void askUpdate(String room){
+        send(new Message("System","askUpdate",room));
     }
 }

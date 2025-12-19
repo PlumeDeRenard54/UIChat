@@ -3,6 +3,7 @@ module org.example.uichat {
     requires javafx.fxml;
     requires org.java_websocket;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
     // Open your package to Jackson so it can access private fields/methods for JSON serialization
     opens org.example.uichat to javafx.fxml, com.fasterxml.jackson.databind;
