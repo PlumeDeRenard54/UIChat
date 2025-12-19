@@ -16,6 +16,9 @@
             <VBox fx:id="messages" styleClass="texte" />
             <TextField fx:id="textEntry" onAction="#onHelloButtonClick" />
             <Button onAction="#onHelloButtonClick" text="Submit" />
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </VBox>
     </center>
    <top>

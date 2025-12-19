@@ -43,9 +43,11 @@ public class ClientWebSocket extends WebSocketClient {
         messages.getChildren().add(createMessageView("closed with exit code " + code + " additional info: " + reason));
     }
 
-    //TODO joli labelll
     public Label createMessageView(Message m){
-        return new Label(m.toString());
+        Label label = new Label(m.toString());
+        label.getStyleClass().add("messages");
+
+        return label;
     }
 
     public Label createMessageView(String m){

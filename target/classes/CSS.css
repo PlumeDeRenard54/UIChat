@@ -1,8 +1,18 @@
 .global{
-    -fx-background-color: salmon;
+    -fx-background-color: linear-gradient(to right bottom,gray,wheat);
+    
 }
 
 .texte{
-    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
     -fx-graphic: #777799;
+    -fx-spacing: 5;
+}
+
+.messages{
+    -fx-border-radius: inherit;
+    -fx-border-color: blueviolet;
+    -fx-fill: darkviolet;
+    -fx-padding: 5;
 }
