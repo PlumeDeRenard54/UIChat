@@ -54,6 +54,7 @@ public class MainApp extends Application {
     private void Serverlink(VBox vBox){
         ClientWebSocket.setMessages(vBox);
         client = ClientWebSocket.getLink();
+        //TODO Ecran de loading
 
     }
 }

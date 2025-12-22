@@ -2,14 +2,12 @@ package org.example.uichat;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -57,12 +55,11 @@ public class ClientWebSocket extends WebSocketClient {
 
     @Override
     public synchronized void onMessage(String message) {
-        System.out.println(Message.unserialize(message));
         try {
-            Message data =  Message.unserialize(message);
+            Message data = Message.unserializeJson(message);
 
             //Reception des données des rooms
-            if (data.user.equals("RoomInfo")){
+            if (data.user.equals("RoomInfo")) {
                 System.out.println("Room info received");
                 publicRooms.add(data.message);
                 MainApp.helloController.updateRooms();
@@ -70,7 +67,7 @@ public class ClientWebSocket extends WebSocketClient {
             }
 
             //Reception des Messages
-            Platform.runLater(()->messages.getChildren().add(createMessageView(data)));
+            Platform.runLater(() -> messages.getChildren().add(createMessageView(data)));
 
         } catch (Exception e) {
             System.out.println("Error while computing data = " + e.getMessage());
@@ -123,7 +120,7 @@ public class ClientWebSocket extends WebSocketClient {
     public static synchronized void send(Message message){
         try {
             WebSocketClient client = ClientWebSocket.getLink();
-            String toSend = message.serialize();
+            String toSend = message.serializeJson();
             System.out.println(toSend);
             client.send(toSend);
         } catch (Exception e) {
@@ -137,7 +134,7 @@ public class ClientWebSocket extends WebSocketClient {
                 try {
                     while (true) {
                         if (ChatController.room != null) {
-                            messages.getChildren().clear();
+                            Platform.runLater(() -> messages.getChildren().clear());
                             askUpdate(ChatController.room);
                         }
                         Thread.sleep(1500);
